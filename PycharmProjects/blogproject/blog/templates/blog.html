@@ -1,0 +1,57 @@
+<html>
+<head>
+    <style>
+        #titolo {
+            color:red;
+            text-align:center;
+            font-size:100px;
+        }
+
+        #sottotitolo {
+            font-style:italic;
+            color:blue;
+            text-align:right;
+        }
+
+        .titolo_post{
+            color:red;
+            font-size:30px;
+            font-style:bold;
+        }
+
+        ul li .post-pari{
+            font-style:italic;
+            color:blue;
+        }
+
+        ul li.post-dispari{
+            font-style:bold;
+            color:green;
+        }
+
+    </style>
+</head>
+<body>
+    <h3  id="titolo">
+        (ilbohblog)
+    </h3>
+    <p id="sottotitolo">per chi non ha niente da fare<br>
+        ...trepunti...<br><br>
+        ah btw è swaggo
+    </p>
+
+
+    <ul>
+        {% for post in posts %}
+            <li>
+                <span class="titolo_post">{{ post.title }} </span>
+                {% if forloop.counter|divisibleby:2 %}
+                    <p class="post-pari">{{ post.text }}</p>   <!- STAMPI SOLO I POST PARI ->
+                {% endif %}
+
+            </li>
+        {% endfor %}
+    </ul>
+
+</body>
+</html>

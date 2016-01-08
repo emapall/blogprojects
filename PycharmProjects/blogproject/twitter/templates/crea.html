@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block meta %}
+<title>CREA UN TUO POST</title>
+{% endblock %}
+
+{% block container %}
+    <h5>Inserisci il testo e il titolo del tuo post</h5>
+    <form action="." method="post"> {% csrf_token %}
+        {{ form }}
+        <input type="submit"  VALUE="vai">
+    </form>
+{% endblock %}

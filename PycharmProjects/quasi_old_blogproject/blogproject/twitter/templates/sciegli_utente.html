@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ciegli i suoi post</title>
+</head>
+<body>
+    ciao come stai???<br>
+    <ul>
+        {% for i in users %}
+            <li>
+                <a href="{% url 'visualizza_post' i %}" > {{ i }} </a>
+            </li>
+        {% endfor %}
+
+    </ul>
+
+</body>
+</html>

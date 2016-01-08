@@ -1,0 +1,20 @@
+
+{% extends "base.html" %}
+
+{% block meta %}
+<title>SCEGLI I POST DI QUALCUNO</title>
+{% endblock %}
+
+{% block container %}
+   <ul>
+        {% for i in users %}
+            <li>
+                <a href="{% url 'home' i %}" > {{ i }} </a>
+            </li>
+        <br>
+
+
+        {% endfor %}
+   </ul>
+
+{% endblock %}

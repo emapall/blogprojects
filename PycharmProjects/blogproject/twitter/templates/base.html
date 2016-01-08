@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% block meta %} {% endblock %}
+
+    {% load staticfiles %}
+    <link type="text/css" rel="stylesheet" href="{% static 'twitter/style.css' %}">
+
+    <style>
+        {% block view_specific_style %} {% endblock %}
+    </style>
+</head>
+<body>
+    <h1 id="titolo">TweetITdotT</h1>
+    <p>SO CHI SEI, {{ request.user }}</p>
+
+    {{ request.user|add:"culo" }}
+     <div id="main_navbar" class="navbar">
+        <ul>
+
+            <li><a href="/twitter/tweets/">HOME</a> </li>
+            <!-- NOTA: SE QUI SI POTESSE CONCATENARE LE STRINGE CON DJANGO (eg:fare tweets/ + request.user in qualche modo sarebbe il top, ma non
+            trovo il filro. In mancanza, sopperire con una view di due righe non è la morte -->
+            <li><a href="/twitter/crea">CREA UN TUO POST</a></li>
+            <li><a href="/twitter/choose">CERCA I POST DI QUALCUNO</a> </li>
+            <li><a href="/twitter/login">LOGIN</a> </li>
+            <li><a href="/twitter/logout">LOGOUT</a> </li>
+        </ul>
+    </div>
+
+
+    <div id="main_container">
+        {% block container %}{% endblock %}
+    </div>
+</body>
+</html>

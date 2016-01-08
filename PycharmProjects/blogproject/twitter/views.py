@@ -1,0 +1,80 @@
+# coding=utf-8
+from django.shortcuts import render
+from forms import TweetForm, LoginForm, UserForm
+from .models import Tweet
+from django.contrib.auth.models import User
+from django.shortcuts import redirect
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+
+
+
+
+def login_view(request):
+    if (request.method == "GET"):
+        return render(request, "login.html", {'form': LoginForm().as_p()})
+    if (request.method == "POST"):
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(username=username,
+                            password=password)  # NOTA  QUELLA FUNZIONE È UNA BUILT IN, TROVATA SULLA DOCUMENTAZIONE, che, preso username e password IN CHIARO ti restituisce l'oggetto utente del db, che corrispone
+        if user is not None:
+            login(request, user)
+            return redirect("home", utente=user)
+        else:
+            return redirect("login")
+
+
+def logout_view(request):
+    logout(request)
+    return redirect("login")
+
+
+def create_user(request):
+    if(request.method == "GET"):
+        form = UserForm()
+        return render(request, "new_user.html", {"form": form.as_p()})
+    if(request.method == "POST"):
+        newuser=UserForm(request.POST)
+        print newuser.is_valid()
+        print newuser.errors
+        if(newuser.is_valid()):
+            newuser.save()
+            return redirect("login")
+
+
+def welcome(request):
+    return render(request,"welcome.html")
+
+# ------------------------------ tutte le robe del sito vero e proprio.
+@login_required(login_url='/twitter/login/')
+def scegli_user(request):
+    # print request.user
+    return render(request, "sciegli_utente.html", {"users": User.objects.all()})
+
+
+@login_required(login_url='/twitter/login/')
+def home_launcher(request):
+    return redirect("home", utente=request.user)
+
+
+@login_required(login_url='/twitter/login/')
+def home(request, utente):
+    posts = Tweet.objects.filter(user__username=utente)
+    #posts=Tweet.objects.filter(Q(user__username=utente) |  Q(user__follower_set__follower__username=utente))
+    return render(request, "tweets.html", {'tweets': posts})
+
+
+@login_required(login_url='/twitter/login/')
+def crea_tweet(request):
+    if (request.method == 'GET'):
+        context_form = TweetForm()
+        return render(request, "crea.html", {"form": context_form.as_p()})
+
+    if (request.method == 'POST'):
+        tweet = TweetForm(request.POST)
+        tweet.is_valid()
+        data = tweet.cleaned_data
+        db_istance = Tweet(text=data['text'], title=data['title'], user=request.user)
+        db_istance.save()
+        return redirect("home", utente=request.user)

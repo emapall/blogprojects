@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>I post di vattelapesca</title>
+</head>
+<body>
+    ciao come stai???<br>
+    <ul>
+        {% for i in tweets %}
+            <li>
+                <h5> {{ i.title }}</h5>
+                Creato il : {{ i.created }} <br>
+                <p> {{i.text }} </p>
+            </li>
+        {% endfor %}
+
+    </ul>
+
+</body>
+</html>

@@ -1,0 +1,13 @@
+from django.contrib.auth.models import User
+from django.db import models
+
+class Tweet(models.Model):
+	text = models.TextField(max_length=500)
+	title = models.CharField(max_length=30)
+	created = models.DateTimeField(auto_now=True)
+	user= models.ForeignKey(User)
+	#update= models.DateTimeField()
+
+	class Meta:
+		ordering = ["-created"]
+
